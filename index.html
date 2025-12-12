@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Better Visuals - Access Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>?? Better Visuals</h1>
+            <p class="subtitle">Access Manager</p>
+        </header>
+
+        <main>
+            <!-- Info Section -->
+            <section class="info-card">
+                <h2>?? Plugin Info</h2>
+                <p>Better Visuals est un plugin <strong>gratuit</strong> pour Broke Protocol.</p>
+                <p>Le code source reste fermé mais l'utilisation est libre.</p>
+                <div class="features-list">
+                    <span class="feature-tag">FOV Slider</span>
+                    <span class="feature-tag">FreeCam</span>
+                    <span class="feature-tag">Zoom</span>
+                </div>
+            </section>
+
+            <!-- Access Data URL -->
+            <section class="info-card">
+                <h2>?? Access Data URL</h2>
+                <p>Le plugin récupère les droits depuis :</p>
+                <code class="url-display">https://juan458a.github.io/BetterVisualsAccess/data/access.json</code>
+                <button class="btn btn-secondary" onclick="copyUrl()">?? Copier l'URL</button>
+            </section>
+
+            <!-- User Management -->
+            <section class="management-card">
+                <h2>?? Gestion des Accès</h2>
+                
+                <!-- Add User Form -->
+                <div class="form-section">
+                    <h3>? Ajouter un utilisateur</h3>
+                    <form id="addUserForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="userId">User ID</label>
+                                <input type="text" id="userId" placeholder="Nom ou ID unique" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="userIp">IP Address</label>
+                                <input type="text" id="userIp" placeholder="123.456.789.000" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Fonctionnalités</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="featFov" checked> FOV
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="featFreecam" checked> FreeCam
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="featUnlimited"> Unlimited FreeCam
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="featZoom" checked> Zoom
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Ajouter</button>
+                    </form>
+                </div>
+
+                <!-- Users Table -->
+                <div class="table-section">
+                    <h3>?? Utilisateurs autorisés</h3>
+                    <div class="table-container">
+                        <table id="usersTable">
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>IP (Base64)</th>
+                                    <th>Fonctionnalités</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="empty-message" id="emptyMessage">Aucun utilisateur ajouté</p>
+                </div>
+
+                <!-- Export Buttons -->
+                <div class="export-section">
+                    <h3>?? Exporter les données</h3>
+                    <div class="btn-group">
+                        <button class="btn btn-export" onclick="exportJSON()">?? Exporter JSON</button>
+                        <button class="btn btn-export" onclick="exportCSV()">?? Exporter CSV</button>
+                        <button class="btn btn-danger" onclick="clearAll()">??? Tout supprimer</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Instructions -->
+            <section class="info-card">
+                <h2>?? Instructions</h2>
+                <ol>
+                    <li>Ajoutez les utilisateurs avec leurs IP et fonctionnalités</li>
+                    <li>Cliquez sur "Exporter JSON"</li>
+                    <li>Remplacez le fichier <code>data/access.json</code> dans le dépôt GitHub</li>
+                    <li>Commit et push les changements</li>
+                    <li>Le plugin récupérera automatiquement les nouveaux droits</li>
+                </ol>
+            </section>
+        </main>
+
+        <footer>
+            <p>Better Visuals © 2024 - K0ZAH, flo, sNeyZz</p>
+            <p><a href="https://github.com/Juan458a/BetterVisualsAccess" target="_blank">GitHub Repository</a></p>
+        </footer>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <h3>?? Modifier l'utilisateur</h3>
+            <form id="editUserForm">
+                <input type="hidden" id="editIndex">
+                <div class="form-group">
+                    <label for="editUserId">User ID</label>
+                    <input type="text" id="editUserId" required>
+                </div>
+                <div class="form-group">
+                    <label for="editUserIp">IP Address</label>
+                    <input type="text" id="editUserIp" required>
+                </div>
+                <div class="form-group">
+                    <label>Fonctionnalités</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="editFeatFov"> FOV
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="editFeatFreecam"> FreeCam
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="editFeatUnlimited"> Unlimited FreeCam
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="editFeatZoom"> Zoom
+                        </label>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
