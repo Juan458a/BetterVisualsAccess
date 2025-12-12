@@ -11,11 +11,11 @@ Site GitHub Pages pour gerer les licences du plugin Better Visuals.
 
 ```
 docs/
-??? index.html      # Page principale
-??? style.css       # Styles
-??? script.js       # Logique JavaScript
-??? data/
-    ??? access.json # Cles de licence
+ index.html      # Page principale
+ style.css       # Styles
+ script.js       # Logique JavaScript
+ data/
+     access.json # Cles de licence
 ```
 
 ## Systeme de Cle API
@@ -78,3 +78,4 @@ L'utilisateur entre cette cle dans le menu Better Visuals du jeu.
 ## Credits
 
 K0ZAH, flo, sNeyZz
+
