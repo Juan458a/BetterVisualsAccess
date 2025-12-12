@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "plugin": "Better Visuals",
+  "updated": "2024-01-01T00:00:00.000Z",
+  "keys": {
+    "BV-K0ZA-H123-ABCD": {
+      "user": "K0ZAH",
+      "features": ["fov", "freecam", "unlimited", "zoom"],
+      "expires": "2099-12-31"
+    },
+    "BV-DEMO-0000-0000": {
+      "user": "Demo",
+      "features": ["fov", "freecam", "zoom"],
+      "expires": "2025-12-31"
+    }
+  }
+}

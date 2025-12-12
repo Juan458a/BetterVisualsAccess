@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Better Visuals - License Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Better Visuals</h1>
+            <p class="subtitle">License Manager</p>
+        </header>
+
+        <main>
+            <!-- Info Section -->
+            <section class="info-card">
+                <h2>Plugin Info</h2>
+                <p>Better Visuals est un plugin <strong>gratuit</strong> pour Broke Protocol.</p>
+                <p>Le code source reste ferme mais l'utilisation est libre.</p>
+                <div class="features-list">
+                    <span class="feature-tag">FOV Slider</span>
+                    <span class="feature-tag">FreeCam</span>
+                    <span class="feature-tag">Zoom</span>
+                    <span class="feature-tag premium">Unlimited FreeCam</span>
+                </div>
+            </section>
+
+            <!-- License Data URL -->
+            <section class="info-card">
+                <h2>License Data URL</h2>
+                <p>Le plugin verifie les licences depuis :</p>
+                <code class="url-display">https://juan458a.github.io/BetterVisualsAccess/data/access.json</code>
+                <button class="btn btn-secondary" onclick="copyUrl()">Copier l'URL</button>
+            </section>
+
+            <!-- Key Generator -->
+            <section class="management-card">
+                <h2>Generateur de Cle API</h2>
+                
+                <div class="form-section">
+                    <h3>Creer une nouvelle cle</h3>
+                    <form id="addKeyForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="userName">Nom d'utilisateur</label>
+                                <input type="text" id="userName" placeholder="Pseudo ou nom" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="expiresDate">Date d'expiration</label>
+                                <input type="date" id="expiresDate" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Fonctionnalites</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="featFov" checked disabled> FOV (inclus)
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="featFreecam" checked disabled> FreeCam (inclus)
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="featZoom" checked disabled> Zoom (inclus)
+                                </label>
+                                <label class="checkbox-label premium-label">
+                                    <input type="checkbox" id="featUnlimited"> [PREMIUM] Unlimited FreeCam
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Generer la cle</button>
+                    </form>
+                </div>
+
+                <!-- Generated Key Display -->
+                <div class="generated-key-section" id="generatedKeySection" style="display: none;">
+                    <h3>Cle generee</h3>
+                    <div class="key-display">
+                        <code id="generatedKeyText">BV-XXXX-XXXX-XXXX</code>
+                        <button class="btn btn-secondary" onclick="copyKey()">Copier</button>
+                    </div>
+                    <p class="key-instructions">Donnez cette cle a l'utilisateur. Il doit l'entrer dans le menu Better Visuals du jeu.</p>
+                </div>
+            </section>
+
+            <!-- Keys Management -->
+            <section class="management-card">
+                <h2>Cles actives</h2>
+                
+                <div class="table-section">
+                    <div class="table-container">
+                        <table id="keysTable">
+                            <thead>
+                                <tr>
+                                    <th>Cle API</th>
+                                    <th>Utilisateur</th>
+                                    <th>Features</th>
+                                    <th>Expire</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="keysTableBody">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="empty-message" id="emptyMessage">Aucune cle creee</p>
+                </div>
+
+                <!-- Export Buttons -->
+                <div class="export-section">
+                    <h3>Exporter les donnees</h3>
+                    <div class="btn-group">
+                        <button class="btn btn-export" onclick="exportJSON()">Exporter JSON</button>
+                        <button class="btn btn-danger" onclick="clearAll()">Tout supprimer</button>
+                    </div>
+                    <p class="export-note">Apres l'export, remplacez <code>data/access.json</code> et poussez sur GitHub.</p>
+                </div>
+            </section>
+
+            <!-- Instructions -->
+            <section class="info-card">
+                <h2>Instructions</h2>
+                <ol>
+                    <li>Generez une cle API pour l'utilisateur</li>
+                    <li>Donnez la cle a l'utilisateur (ex: <code>BV-K0ZA-H123-ABCD</code>)</li>
+                    <li>L'utilisateur entre la cle dans le menu Better Visuals - API Key</li>
+                    <li>Cliquez sur "Exporter JSON"</li>
+                    <li>Remplacez le fichier <code>data/access.json</code> dans le depot GitHub</li>
+                    <li>Commit et push les changements</li>
+                </ol>
+            </section>
+        </main>
+
+        <footer>
+            <p>Better Visuals 2024 - K0ZAH, flo, sNeyZz</p>
+            <p><a href="https://github.com/Juan458a/BetterVisualsAccess" target="_blank">GitHub Repository</a></p>
+        </footer>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <h3>Modifier la cle</h3>
+            <form id="editKeyForm">
+                <input type="hidden" id="editKey">
+                <div class="form-group">
+                    <label for="editUserName">Nom d'utilisateur</label>
+                    <input type="text" id="editUserName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editExpiresDate">Date d'expiration</label>
+                    <input type="date" id="editExpiresDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Fonctionnalites</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" checked disabled> FOV
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" checked disabled> FreeCam
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" checked disabled> Zoom
+                        </label>
+                        <label class="checkbox-label premium-label">
+                            <input type="checkbox" id="editFeatUnlimited"> [PREMIUM] Unlimited
+                        </label>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
